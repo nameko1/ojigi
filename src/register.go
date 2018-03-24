@@ -5,7 +5,6 @@ import (
     "bufio"
 )
 
-const filePath = "/tmp/hoge"
 
 func isExistPasswd(service string) bool {
     if len(GetPasswdFromService(service)) != 0 {
@@ -15,7 +14,7 @@ func isExistPasswd(service string) bool {
 }
 
 func writePasswd(service string, passwd string) bool{
-    file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+    file, err := os.OpenFile(FilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
     if err != nil {
         return false
     }
