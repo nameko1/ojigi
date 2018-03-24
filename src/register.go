@@ -15,7 +15,7 @@ func isExistPasswd(service string) bool {
 }
 
 func writePasswd(service string, passwd string) bool{
-    file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+    file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
     if err != nil {
         return false
     }
