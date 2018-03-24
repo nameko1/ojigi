@@ -3,27 +3,13 @@ import (
     "fmt"
     "os"
     "bufio"
-    "strings"
 )
 
 const filePath = "/tmp/hoge"
 
 func isExistPasswd(service string) bool {
-    file, err := os.OpenFile(filePath, os.O_RDONLY|os.O_CREATE, 0644)
-    if err != nil {
-        fmt.Println(err) 
-    }
-    defer file.Close()
-
-    sc := bufio.NewScanner(file)
-    for i := 1; sc.Scan(); i++ {
-        if err := sc.Err(); err != nil {
-            break 
-        }
-        name := strings.Split(sc.Text(), ":")[0]
-        if name == service {
-            return true 
-        }
+    if len(GetPasswdFromService(service)) != 0 {
+        return true 
     }
     return false
 }
