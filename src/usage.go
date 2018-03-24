@@ -1,6 +1,6 @@
 package ojigi
 import "fmt"
 
-func usage() {
+func Usage() {
     fmt.Println("write usage") 
 }

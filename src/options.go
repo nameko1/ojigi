@@ -27,6 +27,9 @@ func parseOptions(opts *Options, args []string) {
             opts.action="show"
         case "register":
             opts.action="register"
+        case "help":
+            Usage()
+            return
         case "-s", "--service":
             opts.service=args[i+1]
         case "-p", "--passwd":

@@ -3,9 +3,9 @@ package ojigi
 func Run(opts *Options) {
     switch opts.action {
         case "show":
-            show(opts.service)
+            Show(opts.service)
         case "register":
-            register(opts.service, opts.passwd)
+            Register(opts.service, opts.passwd)
         default:
     }
 

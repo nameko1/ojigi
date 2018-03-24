@@ -3,7 +3,7 @@ import (
     "fmt"
 )
 
-func show(service string) {
+func Show(service string) {
     fmt.Println("call show")
     fmt.Println(service)
 }
