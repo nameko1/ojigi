@@ -3,10 +3,11 @@ package ojigi
 import 
     "os"
 
-const FilePath = "/etc/ojigi/passwd"
+const DirPath = "/etc/ojigi"
+const FilePath = DirPath+"/passwd"
 
 func Run(opts *Options) {
-    if _, err := os.Stat(FilePath); err != nil {
+    if _, err := os.Stat(DirPath); err != nil {
         if !Init() {
             return 
         }
