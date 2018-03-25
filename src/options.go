@@ -8,15 +8,14 @@ type Options struct {
     action string
     service string
     passwd string
-    encrypt bool
 }
 
 func defaultOptions() *Options{
     return &Options{
         action: "help",
         service: "",
-        passwd: "",
-        encrypt: true} 
+        passwd: ""}
+
 }
 
 func parseOptions(opts *Options, args []string) {
@@ -34,8 +33,6 @@ func parseOptions(opts *Options, args []string) {
             opts.service=args[i+1]
         case "-p", "--passwd":
             opts.passwd=args[i+1]
-        case "--no-encrypt":
-            opts.encrypt=false
         default:
         }
     } 
