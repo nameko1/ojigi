@@ -8,15 +8,6 @@ import (
 )
 
 func Modify(service string, passwd string, action string) {
-    if len(service) == 0 {
-        Usage()
-        return 
-    }
-
-    if action == "modify" && len(passwd) == 0 {
-        Usage()
-        return
-    }
 
     oldFile, oldFileErr := os.OpenFile(FilePath, os.O_RDONLY|os.O_CREATE, 0600)
     if oldFileErr != nil {

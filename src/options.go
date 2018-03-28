@@ -10,12 +10,26 @@ type Options struct {
     passwd string
 }
 
-func defaultOptions() *Options{
+func defaultOptions() *Options {
     return &Options{
         action: "help",
         service: "",
         passwd: ""}
 
+}
+func validOptions(opts *Options) bool {
+    switch opts.action {
+    case "show","delete":
+        if len(opts.service) == 0 {
+            return false 
+        }
+    case "register", "modify":
+        if len(opts.service) == 0 || len(opts.passwd) == 0 {
+            return false 
+        }
+    default:
+    }
+    return true
 }
 
 func parseOptions(opts *Options, args []string) {
@@ -23,23 +37,32 @@ func parseOptions(opts *Options, args []string) {
         arg := args[i]
         switch arg {
         case "show":
-            opts.action="show"
+            opts.action = "show"
         case "register":
-            opts.action="register"
+            opts.action = "register"
         case "modify":
-            opts.action="modify"
+            opts.action = "modify"
         case "delete":
-            opts.action="delete"
-        case "help":
-            Usage()
-            return
+            opts.action = "delete"
         case "-s", "--service":
+            if i + 1 >= len(args) {
+                opts.action = "help"
+                return
+            }
             opts.service=args[i+1]
         case "-p", "--passwd":
+            if i + 1 >= len(args) {
+                opts.action = "help"
+                return
+            }
             opts.passwd=args[i+1]
         default:
         }
     } 
+    // if faild validation than no action
+    if !validOptions(opts) {
+        opts.action = "help"
+    }
 }
 
 func ParseOptions() *Options{

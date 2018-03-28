@@ -27,10 +27,6 @@ func writePasswd(service string, passwd string) bool{
 }
 
 func Register(service string, passwd string) {
-    if len(service) == 0 || len(passwd) == 0 {
-        Usage()
-        return
-    }
 
     if isExistPasswd(service) {
         fmt.Printf("ojigi: %s password is already registered\n", service) 
