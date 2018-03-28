@@ -1,10 +1,8 @@
 package ojigi 
 
-import 
+import ( 
     "os"
-
-const DirPath = "/etc/ojigi"
-const FilePath = DirPath+"/passwd"
+)
 
 func Run(opts *Options) {
     if _, err := os.Stat(DirPath); err != nil {
@@ -18,6 +16,8 @@ func Run(opts *Options) {
         Show(opts.service)
     case "register":
         Register(opts.service, opts.passwd)
+    case "delete":
+        Delete(opts.service)
     default:
     }
 }

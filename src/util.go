@@ -6,6 +6,10 @@ import (
     "fmt"
 )
 
+const DirPath = "/etc/ojigi"
+const FilePath = DirPath+"/passwd"
+const NewFilePath = DirPath+"/newpasswd"
+
 func GetPasswdFromService(service string) string {
     file, err := os.OpenFile(FilePath, os.O_RDONLY|os.O_CREATE, 0600)
     if err != nil {
