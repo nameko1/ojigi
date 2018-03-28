@@ -7,8 +7,13 @@ import (
     "strings"
 )
 
-func Delete(service string) {
+func Modify(service string, passwd string, action string) {
     if len(service) == 0 {
+        Usage()
+        return 
+    }
+
+    if action == "modify" && len(passwd) == 0 {
         Usage()
         return
     }
@@ -35,7 +40,11 @@ func Delete(service string) {
             fmt.Println("faild: can not update password file")
             break 
         }
-        if l := strings.Split(sc.Text(), ":"); l[0] != service {
+        if l := strings.Split(sc.Text(), ":"); l[0] == service {
+            if action == "modify" {
+                newFile.Write([]byte(l[0]+":"+passwd+"\n"))
+            }
+        } else {
             newFile.Write([]byte(sc.Text()+"\n"))
         }
     }

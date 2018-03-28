@@ -16,8 +16,10 @@ func Run(opts *Options) {
         Show(opts.service)
     case "register":
         Register(opts.service, opts.passwd)
+    case "modify":
+        Modify(opts.service, opts.passwd, opts.action)
     case "delete":
-        Delete(opts.service)
+        Modify(opts.service, "", opts.action)
     default:
     }
 }
