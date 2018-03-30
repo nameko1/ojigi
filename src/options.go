@@ -17,7 +17,7 @@ func defaultOptions() *Options {
         passwd: ""}
 
 }
-func validOptions(opts *Options) bool {
+func validateOptions(opts *Options) bool {
     switch opts.action {
     case "copy","show","delete":
         if len(opts.service) == 0 {
@@ -60,9 +60,9 @@ func parseOptions(opts *Options, args []string) {
             opts.passwd=args[i+1]
         default:
         }
-    } 
+    }
     // if faild validation than no action
-    if !validOptions(opts) {
+    if !validateOptions(opts) {
         opts.action = "help"
     }
 }
