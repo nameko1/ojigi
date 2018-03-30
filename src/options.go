@@ -19,13 +19,13 @@ func defaultOptions() *Options {
 }
 func validOptions(opts *Options) bool {
     switch opts.action {
-    case "show","delete":
+    case "copy","show","delete":
         if len(opts.service) == 0 {
-            return false 
+            return false
         }
     case "register", "modify":
         if len(opts.service) == 0 || len(opts.passwd) == 0 {
-            return false 
+            return false
         }
     default:
     }
@@ -44,6 +44,8 @@ func parseOptions(opts *Options, args []string) {
             opts.action = "modify"
         case "delete":
             opts.action = "delete"
+        case "copy":
+            opts.action = "copy"
         case "-s", "--service":
             if i + 1 >= len(args) {
                 opts.action = "help"
