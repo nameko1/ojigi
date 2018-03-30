@@ -6,8 +6,8 @@ import (
 func Show(service string) {
     passwd := GetPasswdFromService(service)
     if len(passwd) != 0 {
-        fmt.Println(passwd)
+        fmt.Println("\n"+passwd)
     } else {
-        fmt.Println("Password not registered") 
+        fmt.Println("\nPassword not registered")
     }
 }

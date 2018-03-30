@@ -5,11 +5,16 @@ import (
 )
 
 func Run(opts *Options) {
-    if _, err := os.Stat(DirPath); err != nil {
-        if !Init() {
-            return
-        }
+    if _, err := os.Stat(PasswdPath); err != nil {
+        Init()
+        return
     }
+
+    if opts.action == "help" {
+        Usage()
+    }
+
+    Authentication()
 
     switch opts.action {
     case "show":
@@ -23,6 +28,5 @@ func Run(opts *Options) {
     case "delete":
         Modify(opts.service, "", opts.action)
     default:
-        Usage()
     }
 }

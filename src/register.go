@@ -1,4 +1,5 @@
 package ojigi
+
 import (
     "fmt"
     "os"
@@ -8,7 +9,7 @@ import (
 
 func isExistPasswd(service string) bool {
     if len(GetPasswdFromService(service)) != 0 {
-        return true 
+        return true
     }
     return false
 }
@@ -29,13 +30,13 @@ func writePasswd(service string, passwd string) bool{
 func Register(service string, passwd string) {
 
     if isExistPasswd(service) {
-        fmt.Printf("ojigi: %s password is already registered\n", service) 
+        fmt.Printf("\nPassword of %s is already registered\n", service)
         return
     }
 
     if writePasswd(service, passwd) {
-       fmt.Println("Success to register password!!")  
+       fmt.Println("\nSuccess to register password!!")
     } else {
-       fmt.Println("Fail to resister password")  
+       fmt.Println("\nFail to resister password")
     }
 }

@@ -3,8 +3,12 @@ package ojigi
 import (
     "os"
     "bufio"
+    "encoding/hex"
+    "crypto/sha1"
     "strings"
     "fmt"
+    "syscall"
+    "golang.org/x/crypto/ssh/terminal"
 )
 
 const (
@@ -38,4 +42,28 @@ func GetPasswdFromService(service string, optionalPath ...string) string {
         }
     }
     return ""
+}
+
+func Sha1Sum(data []byte) string {
+    hash := sha1.Sum(data)
+    return hex.EncodeToString(hash[:])
+}
+
+func PasswdScanf(msg string, error func()) []byte {
+    fmt.Print(msg);
+    input, err := terminal.ReadPassword(int(syscall.Stdin))
+    if err != nil {
+        error()
+    }
+    return input
+}
+
+func VerifyPasswdScanf(firstMsg string, secondMsg string, error func()) []byte {
+    passwd := PasswdScanf(firstMsg, error)
+    verify := PasswdScanf(secondMsg, error)
+
+    if string(passwd) != string(verify) {
+        error()
+    }
+    return passwd
 }
