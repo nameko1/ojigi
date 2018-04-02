@@ -14,19 +14,19 @@ func Run(opts *Options) {
         Usage()
     }
 
-    Authentication()
+    key := Authentication()
 
     switch opts.action {
     case "show":
-        Show(opts.service)
+        Show(opts.service, key)
     case "copy":
-        Copy(opts.service)
+        Copy(opts.service, key)
     case "register":
-        Register(opts.service, opts.passwd)
+        Register(opts.service, opts.passwd, key)
     case "modify":
-        Modify(opts.service, opts.passwd, opts.action)
+        Modify(opts.service, opts.passwd, key, opts.action)
     case "delete":
-        Modify(opts.service, "", opts.action)
+        Modify(opts.service, nil, key, opts.action)
     default:
     }
 }

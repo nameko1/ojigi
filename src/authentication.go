@@ -3,11 +3,12 @@ package ojigi
 import (
     "os"
     "fmt"
+    "golang.org/x/crypto/scrypt"
 )
 
 var BUFSIZE=40
 
-func getPasswd() string {
+func getUserPasswd() string {
     file, err := os.OpenFile(PasswdPath, os.O_RDONLY, 0400)
     if err != nil {
         faild()
@@ -23,17 +24,24 @@ func getPasswd() string {
     return string(passwd)
 }
 
+
 func faild () {
     fmt.Println("\nAuthenticaion faild")
     os.Exit(0)
 }
 
 func Authentication() []byte {
-    passwd := getPasswd()
-    input := PasswdScanf("Enter your password: ", faild)
+    passwd := getUserPasswd()
+    inputPasswd := PasswdScanf("Enter your password: ", faild)
 
-    if passwd != Sha1Sum(input) {
+    if passwd != Sha1Sum(inputPasswd) {
         faild()
     }
-    return input
+    //passwd convert 32bit key
+    key, err := scrypt.Key(inputPasswd, []byte("nameko"), 16384, 8, 1, 32)
+    if err != nil {
+        fmt.Printf("Error: %s \n", err)
+        os.Exit(0)
+    }
+    return key
 }

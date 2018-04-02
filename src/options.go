@@ -7,27 +7,19 @@ import (
 type Options struct {
     action string
     service string
-    passwd string
+    passwd []byte
 }
 
 func defaultOptions() *Options {
     return &Options{
         action: "help",
         service: "",
-        passwd: ""}
+        passwd: nil}
 
 }
 func validateOptions(opts *Options) bool {
-    switch opts.action {
-    case "copy","show","delete":
-        if len(opts.service) == 0 {
-            return false
-        }
-    case "register", "modify":
-        if len(opts.service) == 0 || len(opts.passwd) == 0 {
-            return false
-        }
-    default:
+    if len(opts.service) == 0 {
+        return false
     }
     return true
 }
@@ -57,7 +49,7 @@ func parseOptions(opts *Options, args []string) {
                 opts.action = "help"
                 return
             }
-            opts.passwd=args[i+1]
+            opts.passwd=[]byte(args[i+1])
         default:
         }
     }

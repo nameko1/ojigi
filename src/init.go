@@ -6,7 +6,7 @@ import (
     "bufio"
 )
 
-func createPassFaild() {
+func faildCreatePass() {
     os.Remove(PasswdPath)
     fmt.Println("\nSorry try again")
     os.Exit(0)
@@ -20,9 +20,9 @@ func createPasswdFile() {
     defer file.Close()
 
     fmt.Println("Setting your password first!")
-    passwd := VerifyPasswdScanf("Enter your password: ", "\nVerify: ", createPassFaild)
+    passwd := VerifyPasswdScanf("Enter your password: ", "\nVerify: ", faildCreatePass)
     if string(passwd) == "" {
-        createPassFaild()
+        faildCreatePass()
     }
 
     passwdStr := Sha1Sum(passwd)
