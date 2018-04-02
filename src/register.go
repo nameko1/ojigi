@@ -1,41 +1,47 @@
 package ojigi
+
 import (
     "fmt"
     "os"
     "bufio"
 )
 
-
 func isExistPasswd(service string) bool {
     if len(GetPasswdFromService(service)) != 0 {
-        return true 
+        return true
     }
     return false
 }
 
-func writePasswd(service string, passwd string) bool{
-    file, err := os.OpenFile(FilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
-    if err != nil {
-        return false
+func writePasswd(service string, passwd []byte, key []byte) {
+    file, fileErr := os.OpenFile(FilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+    if fileErr != nil {
+        fmt.Println("\nFail: can't open password file")
+        return
     }
     defer file.Close()
 
+    cipherPasswd := EncodePasswd(passwd, key)
+
     wr := bufio.NewWriter(file)
-    wr.WriteString(service + ":" + passwd + "\n")
+    wr.WriteString(service + ":" + cipherPasswd + "\n")
     wr.Flush()
-    return true
+    fmt.Println("\nSuccess to register password!!")
 }
 
-func Register(service string, passwd string) {
+func faildPassword() {
+    fmt.Println("\nSorry try again")
+    os.Exit(0)
+}
 
+func Register(service string, passwd []byte, key []byte) {
     if isExistPasswd(service) {
-        fmt.Printf("ojigi: %s password is already registered\n", service) 
+        fmt.Printf("\nPassword of %s is already registered\n", service)
         return
     }
-
-    if writePasswd(service, passwd) {
-       fmt.Println("Success to register password!!")  
-    } else {
-       fmt.Println("Fail to resister password")  
+    if passwd == nil {
+        passwd = VerifyPasswdScanf("\nEnter service password: ", "\nVerify: ", faildPassword)
     }
+
+    writePasswd(service, passwd, key)
 }

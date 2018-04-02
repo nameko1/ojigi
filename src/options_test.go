@@ -8,10 +8,9 @@ var(
     scenario1 = [...] string{"show", "-s"}
     scenario2 = [...] string{"show", "-s", "service"}
     scenario3 = [...] string{"register", "-s", "service", "-p", "passwd"}
-    scenario4 = [...] string{"register", "-s", "service", "-p"}
+    scenario4 = [...] string{"register", "-s", "service"}
     scenario5 = [...] string{"register", "-s", "-p", "service"}
-    scenario6 = [...] string{"register", "-s", "-p"}
-    scenario7 = [...] string{"show", "copy", "-s", "service", "-p", "passwd"}
+    scenario6 = [...] string{"show", "copy", "-s", "service"}
 )
 
 func TestParseOptions(t *testing.T) {
@@ -29,14 +28,14 @@ func TestParseOptions(t *testing.T) {
 
     opts = defaultOptions()
     parseOptions(opts, scenario3[0:])
-    if opts.action != scenario3[0] && opts.service != scenario3[2] && opts.passwd != scenario3[4]{
+    if opts.action != scenario3[0] && opts.service != scenario3[2] && string(opts.passwd) != scenario3[4] {
         t.Error("should get correct action and arguments")
     }
 
     opts = defaultOptions()
     parseOptions(opts, scenario4[0:])
-    if opts.action != "help" {
-        t.Error("action should be help when set option with no argument")
+    if opts.action != scenario4[0] && opts.service != scenario4[2] {
+        t.Error("should get correct action and arguments")
     }
 
     opts = defaultOptions()
@@ -47,12 +46,6 @@ func TestParseOptions(t *testing.T) {
 
     opts = defaultOptions()
     parseOptions(opts, scenario6[0:])
-    if opts.action != "help" {
-        t.Error("action should be help when set option with no argument")
-    }
-
-    opts = defaultOptions()
-    parseOptions(opts, scenario7[0:])
     if opts.action != "help" {
         t.Error("no multi action")
     }
@@ -84,19 +77,19 @@ func TestValidateOptions(t *testing.T) {
     //register
     opts.action = "register"
     opts.service = ""
-    opts.passwd = ""
+    opts.passwd = nil
     if validateOptions(opts) {
         t.Error("register command require a service name and password")
     }
     opts.action = "register"
     opts.service = ""
-    opts.passwd = "pass"
+    opts.passwd = []byte("pass")
     if validateOptions(opts) {
         t.Error("register command require a service name")
     }
     opts.action = "register"
     opts.service = "service"
-    opts.passwd = ""
+    opts.passwd = nil
     if validateOptions(opts) {
         t.Error("register command require a password")
     }
@@ -104,19 +97,19 @@ func TestValidateOptions(t *testing.T) {
     //modify
     opts.action = "modify"
     opts.service = ""
-    opts.passwd = ""
+    opts.passwd = nil
     if validateOptions(opts) {
         t.Error("modify command require a service name and password")
     }
     opts.action = "modify"
     opts.service = ""
-    opts.passwd = "pass"
+    opts.passwd = []byte("pass")
     if validateOptions(opts) {
         t.Error("modify command require a service name")
     }
     opts.action = "modify"
     opts.service = "service"
-    opts.passwd = ""
+    opts.passwd = nil
     if validateOptions(opts) {
         t.Error("modify command require a password")
     }

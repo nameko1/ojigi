@@ -3,11 +3,12 @@ import (
     "fmt"
 )
 
-func Show(service string) {
-    passwd := GetPasswdFromService(service)
+func Show(service string, key []byte) {
+    cipherPasswd := GetPasswdFromService(service)
+    passwd := DecodePasswd(cipherPasswd, key)
     if len(passwd) != 0 {
-        fmt.Println(passwd)
+        fmt.Println("\n"+string(passwd))
     } else {
-        fmt.Println("Password not registered") 
+        fmt.Println("\nPassword not registered")
     }
 }

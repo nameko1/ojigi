@@ -1,11 +1,14 @@
 package ojigi
+
 import (
     "fmt"
     "os/exec"
 )
 
-func Copy(service string) {
-    passwd := GetPasswdFromService(service)
+//おかしい
+func Copy(service string, key []byte) {
+    cipherPasswd := GetPasswdFromService(service)
+    passwd := DecodePasswd(cipherPasswd, key)
     if len(passwd) != 0 {
         copyCmd := exec.Command("pbcopy")
         in, err := copyCmd.StdinPipe()
@@ -15,14 +18,14 @@ func Copy(service string) {
         if err := copyCmd.Start(); err != nil {
             return
         }
-        if _, err := in.Write([]byte(passwd)); err != nil {
+        if _, err := in.Write(passwd); err != nil {
             return
         }
         if err := in.Close(); err != nil {
             return
         }
-        fmt.Println("Already copied password to your clipboard")
+        fmt.Println("\nCopied password to your clipboard")
     } else {
-        fmt.Println("Password not registered")
+        fmt.Printf("\nPassword of %s not registered", service)
     }
 }

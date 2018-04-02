@@ -5,24 +5,28 @@ import (
 )
 
 func Run(opts *Options) {
-    if _, err := os.Stat(DirPath); err != nil {
-        if !Init() {
-            return
-        }
+    if _, err := os.Stat(PasswdPath); err != nil {
+        Init()
+        return
     }
+
+    if opts.action == "help" {
+        Usage()
+    }
+
+    key := Authentication()
 
     switch opts.action {
     case "show":
-        Show(opts.service)
+        Show(opts.service, key)
     case "copy":
-        Copy(opts.service)
+        Copy(opts.service, key)
     case "register":
-        Register(opts.service, opts.passwd)
+        Register(opts.service, opts.passwd, key)
     case "modify":
-        Modify(opts.service, opts.passwd, opts.action)
+        Modify(opts.service, opts.passwd, key, opts.action)
     case "delete":
-        Modify(opts.service, "", opts.action)
+        Modify(opts.service, nil, key, opts.action)
     default:
-        Usage()
     }
 }
