@@ -1,2 +1,1 @@
-nameko:namekopass
-hoge:hogepasswd
+test:8:fa8711ad764f00e5229a81b9b141239bf96ecb7d8df76627

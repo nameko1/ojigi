@@ -6,6 +6,7 @@ import (
     "encoding/hex"
     "crypto/sha1"
     "strings"
+    "strconv"
     "fmt"
     "syscall"
     "golang.org/x/crypto/ssh/terminal"
@@ -22,8 +23,8 @@ PasswdPath = DirPath+"/passwd"
 NewFilePath = DirPath+"/new_ojigi_note"
 )
 
-func DecodePasswd(hoge string, key []byte) []byte {
-    encPasswd, decodeErr := hex.DecodeString(hoge)
+func DecodePasswd(hexPasswd string, key []byte, length int) []byte {
+    encPasswd, decodeErr := hex.DecodeString(hexPasswd)
     if decodeErr != nil {
         fmt.Printf("Error: %s\n", decodeErr)
         os.Exit(0)
@@ -36,8 +37,7 @@ func DecodePasswd(hoge string, key []byte) []byte {
     }
 
     iv := encPasswd[:aes.BlockSize]
-    //size問題
-    passwd := make([]byte, 50)
+    passwd := make([]byte, length)
 
     stream := cipher.NewCTR(block, iv)
     stream.XORKeyStream(passwd, encPasswd[aes.BlockSize:])
@@ -63,7 +63,7 @@ func EncodePasswd(passwd []byte, key []byte) string {
     return hex.EncodeToString(cipherPasswd)
 }
 
-func GetPasswdFromService(service string, optionalPath ...string) string {
+func GetPasswdFromService(service string, optionalPath ...string) (string, int) {
     path := FilePath
     if len(optionalPath) > 0 {
         path = optionalPath[0]
@@ -72,21 +72,22 @@ func GetPasswdFromService(service string, optionalPath ...string) string {
     file, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE, 0600)
     if err != nil {
         fmt.Println(err)
-        return ""
+        return "", 0
     }
     defer file.Close()
 
     sc := bufio.NewScanner(file)
     for i := 1; sc.Scan(); i++ {
         if err := sc.Err(); err != nil {
-            return ""
+            return "", 0
         }
         line := strings.Split(sc.Text(), ":")
         if line[0] == service {
-            return line[1]
+            length, _ := strconv.Atoi(line[1])
+            return line[2], length
         }
     }
-    return ""
+    return "", 0
 }
 
 

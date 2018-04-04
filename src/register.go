@@ -4,13 +4,12 @@ import (
     "fmt"
     "os"
     "bufio"
+    "strconv"
 )
 
 func isExistPasswd(service string) bool {
-    if len(GetPasswdFromService(service)) != 0 {
-        return true
-    }
-    return false
+    _, length := GetPasswdFromService(service)
+    return length != 0
 }
 
 func writePasswd(service string, passwd []byte, key []byte) {
@@ -24,7 +23,7 @@ func writePasswd(service string, passwd []byte, key []byte) {
     cipherPasswd := EncodePasswd(passwd, key)
 
     wr := bufio.NewWriter(file)
-    wr.WriteString(service + ":" + cipherPasswd + "\n")
+    wr.WriteString(service + ":" + strconv.Itoa(len(passwd)) + ":" + cipherPasswd + "\n")
     wr.Flush()
     fmt.Println("\nSuccess to register password!!")
 }
