@@ -12,7 +12,7 @@ type Options struct {
 
 func defaultOptions() *Options {
     return &Options{
-        action: "help",
+        action: "",
         service: "",
         passwd: nil}
 
@@ -29,28 +29,31 @@ func parseOptions(opts *Options, args []string) {
         arg := args[i]
         switch arg {
         case "show":
-            opts.action = "show"
+            opts.action = opts.action + arg
         case "register":
-            opts.action = "register"
+            opts.action = opts.action + arg
         case "modify":
-            opts.action = "modify"
+            opts.action = opts.action + arg
         case "delete":
-            opts.action = "delete"
+            opts.action = opts.action + arg
         case "copy":
-            opts.action = "copy"
+            opts.action = opts.action + arg
         case "-s", "--service":
             if i + 1 >= len(args) {
                 opts.action = "help"
                 return
             }
-            opts.service=args[i+1]
+            i++
+            opts.service=args[i]
         case "-p", "--passwd":
             if i + 1 >= len(args) {
                 opts.action = "help"
                 return
             }
-            opts.passwd=[]byte(args[i+1])
+            i++
+            opts.passwd=[]byte(args[i])
         default:
+            opts.action = "help"
         }
     }
     // if faild validation than no action

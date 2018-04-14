@@ -17,8 +17,7 @@ import (
 )
 
 const (
-// DirPath = "/etc/ojigi"
-DirPath = "/Users/nameko/repositories/ojigi/src/github.com/nameko1/ojigi"
+DirPath = "/etc/ojigi"
 FilePath = DirPath+"/ojigi_note"
 PasswdPath = DirPath+"/passwd"
 NewFilePath = DirPath+"/new_ojigi_note"

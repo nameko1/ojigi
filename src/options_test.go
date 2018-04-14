@@ -11,6 +11,7 @@ var(
     scenario4 = [...] string{"register", "-s", "service"}
     scenario5 = [...] string{"register", "-s", "-p", "service"}
     scenario6 = [...] string{"show", "copy", "-s", "service"}
+    scenario7 = [...] string{"-s", "service"}
 )
 
 func TestParseOptions(t *testing.T) {
@@ -46,8 +47,14 @@ func TestParseOptions(t *testing.T) {
 
     opts = defaultOptions()
     parseOptions(opts, scenario6[0:])
-    if opts.action != "help" {
+    if opts.action != "showcopy" {
         t.Error("no multi action")
+    }
+
+    opts = defaultOptions()
+    parseOptions(opts, scenario7[0:])
+    if opts.action != "" {
+        t.Error("no action is not allowed")
     }
 }
 

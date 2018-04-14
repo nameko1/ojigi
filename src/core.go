@@ -28,5 +28,6 @@ func Run(opts *Options) {
     case "delete":
         Modify(opts.service, nil, key, opts.action)
     default:
+        Usage()
     }
 }
