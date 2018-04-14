@@ -7,8 +7,8 @@ import (
 
 func Copy(service string, key []byte) {
     cipherPasswd, length := GetPasswdFromService(service)
-    passwd := DecodePasswd(cipherPasswd, key, length)
-    if len(passwd) != 0 {
+    if length != 0 {
+        passwd := DecodePasswd(cipherPasswd, key, length)
         copyCmd := exec.Command("pbcopy")
         in, err := copyCmd.StdinPipe()
         if err != nil {
@@ -25,6 +25,6 @@ func Copy(service string, key []byte) {
         }
         fmt.Println("Copied password to your clipboard")
     } else {
-        fmt.Printf("Password of %s not registered", service)
+        fmt.Printf("Don't know \"%s\" password\n", service)
     }
 }
