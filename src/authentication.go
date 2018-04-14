@@ -24,9 +24,8 @@ func getUserPasswd() string {
     return string(passwd)
 }
 
-
 func faild () {
-    fmt.Println("\nAuthenticaion faild")
+    fmt.Println("Authenticaion faild")
     os.Exit(0)
 }
 

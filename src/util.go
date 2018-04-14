@@ -17,7 +17,8 @@ import (
 )
 
 const (
-DirPath = "/etc/ojigi"
+// DirPath = "/etc/ojigi"
+DirPath = "/Users/nameko/repositories/ojigi/src/github.com/nameko1/ojigi"
 FilePath = DirPath+"/ojigi_note"
 PasswdPath = DirPath+"/passwd"
 NewFilePath = DirPath+"/new_ojigi_note"
@@ -47,7 +48,7 @@ func DecodePasswd(hexPasswd string, key []byte, length int) []byte {
 func EncodePasswd(passwd []byte, key []byte) string {
     block, aesErr := aes.NewCipher(key)
     if aesErr != nil {
-        fmt.Println("\nFail: fail to register password")
+        fmt.Println("Fail: fail to register password")
         return ""
     }
 
@@ -55,7 +56,7 @@ func EncodePasswd(passwd []byte, key []byte) string {
 
     iv := cipherPasswd[:aes.BlockSize]
     if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-        fmt.Println("\nFail: fail to register password")
+        fmt.Println("Fail: fail to register password")
         return ""
     }
     stream := cipher.NewCTR(block, iv)
@@ -102,8 +103,7 @@ func PasswdScanf(msg string, error func()) []byte {
     if err != nil {
         error()
     }
-    //TODO 
-    // fmt.Println("")
+    fmt.Println("")
     return passwd
 }
 

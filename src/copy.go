@@ -23,8 +23,8 @@ func Copy(service string, key []byte) {
         if err := in.Close(); err != nil {
             return
         }
-        fmt.Println("\nCopied password to your clipboard")
+        fmt.Println("Copied password to your clipboard")
     } else {
-        fmt.Printf("\nPassword of %s not registered", service)
+        fmt.Printf("Password of %s not registered", service)
     }
 }

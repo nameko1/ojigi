@@ -15,7 +15,7 @@ func isExistPasswd(service string) bool {
 func writePasswd(service string, passwd []byte, key []byte) {
     file, fileErr := os.OpenFile(FilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
     if fileErr != nil {
-        fmt.Println("\nFail: can't open password file")
+        fmt.Println("Fail: can't open password file")
         return
     }
     defer file.Close()
@@ -25,21 +25,21 @@ func writePasswd(service string, passwd []byte, key []byte) {
     wr := bufio.NewWriter(file)
     wr.WriteString(service + ":" + strconv.Itoa(len(passwd)) + ":" + cipherPasswd + "\n")
     wr.Flush()
-    fmt.Println("\nSuccess to register password!!")
+    fmt.Println("Success to register password!!")
 }
 
 func faildPassword() {
-    fmt.Println("\nSorry try again")
+    fmt.Println("Sorry try again")
     os.Exit(0)
 }
 
 func Register(service string, passwd []byte, key []byte) {
     if isExistPasswd(service) {
-        fmt.Printf("\nPassword of %s is already registered\n", service)
+        fmt.Printf("Password of %s is already registered\n", service)
         return
     }
     if passwd == nil {
-        passwd = VerifyPasswdScanf("\nEnter service password: ", "\nVerify: ", faildPassword)
+        passwd = VerifyPasswdScanf("Enter service password: ", "Verify: ", faildPassword)
     }
 
     writePasswd(service, passwd, key)

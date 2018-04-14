@@ -8,19 +8,19 @@ import (
 
 func faildCreatePass() {
     os.Remove(PasswdPath)
-    fmt.Println("\nSorry try again")
+    fmt.Println("Sorry try again")
     os.Exit(0)
 }
 
 func createPasswdFile() {
     file, err := os.OpenFile(PasswdPath, os.O_WRONLY|os.O_CREATE, 0400)
     if err != nil {
-        return
+        faildCreatePass()
     }
     defer file.Close()
 
     fmt.Println("Setting your password first!")
-    passwd := VerifyPasswdScanf("Enter your password: ", "\nVerify: ", faildCreatePass)
+    passwd := VerifyPasswdScanf("Enter your password: ", "Verify: ", faildCreatePass)
     if string(passwd) == "" {
         faildCreatePass()
     }
@@ -29,8 +29,7 @@ func createPasswdFile() {
     wr := bufio.NewWriter(file)
     wr.WriteString(passwdStr)
     wr.Flush()
-    fmt.Println("\nRegister new password!!")
-    return
+    fmt.Println("Register new password!!")
 }
 
 func Init() {
@@ -41,5 +40,4 @@ func Init() {
         }
     }
     createPasswdFile()
-    return
 }
