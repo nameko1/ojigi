@@ -17,6 +17,8 @@ func Run(opts *Options) {
     key := Authentication()
 
     switch opts.action {
+    case "list":
+        List(opts.service)
     case "show":
         Show(opts.service, key)
     case "copy":

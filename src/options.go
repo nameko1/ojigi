@@ -18,7 +18,7 @@ func defaultOptions() *Options {
 
 }
 func validateOptions(opts *Options) bool {
-    if len(opts.service) == 0 {
+    if len(opts.service) == 0 && opts.action != "list" {
         return false
     }
     return true
@@ -28,6 +28,8 @@ func parseOptions(opts *Options, args []string) {
     for i := 0; i < len(args); i++ {
         arg := args[i]
         switch arg {
+        case "list":
+            opts.action = opts.action + arg
         case "show":
             opts.action = opts.action + arg
         case "register":
