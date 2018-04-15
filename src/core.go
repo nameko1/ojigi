@@ -4,8 +4,10 @@ import (
     "os"
 )
 
+var filePaths = GetPaths()
+
 func Run(opts *Options) {
-    if _, err := os.Stat(PasswdPath); err != nil {
+    if _, err := os.Stat(filePaths.passwd); err != nil {
         Init()
         return
     }
@@ -13,7 +15,6 @@ func Run(opts *Options) {
     if opts.action == "help" {
         Usage()
     }
-
     key := Authentication()
 
     switch opts.action {

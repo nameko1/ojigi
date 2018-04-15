@@ -9,7 +9,7 @@ import (
 var BUFSIZE=40
 
 func getUserPasswd() string {
-    file, err := os.OpenFile(PasswdPath, os.O_RDONLY, 0400)
+    file, err := os.OpenFile(filePaths.passwd, os.O_RDONLY, 0400)
     if err != nil {
         faild()
     }

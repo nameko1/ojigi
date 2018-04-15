@@ -13,7 +13,7 @@ func isExistPasswd(service string) bool {
 }
 
 func writePasswd(service string, passwd []byte, key []byte) {
-    file, fileErr := os.OpenFile(FilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+    file, fileErr := os.OpenFile(filePaths.file, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
     if fileErr != nil {
         fmt.Println("Fail: can't open password file")
         return

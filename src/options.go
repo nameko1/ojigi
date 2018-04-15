@@ -10,6 +10,22 @@ type Options struct {
     passwd []byte
 }
 
+type Paths struct {
+    directory string
+    passwd string
+    file string
+    newfile string
+}
+
+func GetPaths() *Paths {
+    dirPath := os.ExpandEnv("$OJIGIPATH")
+    return &Paths{
+    directory: dirPath,
+    passwd: dirPath + "/passwd",
+    file: dirPath + "/ojigi_note",
+    newfile: dirPath + "/new_ojigi_note"}
+}
+
 func defaultOptions() *Options {
     return &Options{
         action: "",

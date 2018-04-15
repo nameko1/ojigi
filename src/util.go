@@ -16,13 +16,6 @@ import (
     "crypto/rand"
 )
 
-const (
-DirPath = "/etc/ojigi"
-FilePath = DirPath+"/ojigi_note"
-PasswdPath = DirPath+"/passwd"
-NewFilePath = DirPath+"/new_ojigi_note"
-)
-
 func DecodePasswd(hexPasswd string, key []byte, length int) []byte {
     encPasswd, decodeErr := hex.DecodeString(hexPasswd)
     if decodeErr != nil {
@@ -64,14 +57,14 @@ func EncodePasswd(passwd []byte, key []byte) string {
 }
 
 func GetPasswdFromService(service string, optionalPath ...string) (string, int) {
-    path := FilePath
+    path := filePaths.file
     if len(optionalPath) > 0 {
         path = optionalPath[0]
     }
 
     file, err := os.OpenFile(path, os.O_RDONLY|os.O_CREATE, 0600)
     if err != nil {
-        fmt.Println(err)
+        fmt.Printf("Error: %s\n", err)
         return "", 0
     }
     defer file.Close()

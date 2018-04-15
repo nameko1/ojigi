@@ -11,13 +11,13 @@ import (
 func Modify(service string, passwd []byte, key []byte, action string) {
 
     complate := false
-    oldFile, oldFileErr := os.OpenFile(FilePath, os.O_RDONLY|os.O_CREATE, 0600)
+    oldFile, oldFileErr := os.OpenFile(filePaths.file, os.O_RDONLY|os.O_CREATE, 0600)
     if oldFileErr != nil {
         fmt.Println("Faild: can not open password file")
         return
     }
 
-    newFile, newFileErr := os.OpenFile(NewFilePath, os.O_WRONLY|os.O_CREATE, 0600)
+    newFile, newFileErr := os.OpenFile(filePaths.newfile, os.O_WRONLY|os.O_CREATE, 0600)
     if newFileErr != nil {
         fmt.Println("Faild: can not open password file")
         return
@@ -29,7 +29,7 @@ func Modify(service string, passwd []byte, key []byte, action string) {
     sc := bufio.NewScanner(oldFile)
     for i := 1; sc.Scan(); i++ {
         if err := sc.Err(); err != nil {
-            os.Remove(NewFilePath)
+            os.Remove(filePaths.newfile)
             fmt.Println("Faild: can not update password file")
             break
         }
@@ -47,8 +47,8 @@ func Modify(service string, passwd []byte, key []byte, action string) {
         }
     }
 
-    os.Remove(FilePath)
-    os.Rename(NewFilePath, FilePath)
+    os.Remove(filePaths.file)
+    os.Rename(filePaths.newfile, filePaths.file)
     if complate {
         fmt.Printf("Success to %s password\n", action)
     } else {
