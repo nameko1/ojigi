@@ -25,7 +25,7 @@ func writePasswd(service string, passwd []byte, key []byte) {
     wr := bufio.NewWriter(file)
     wr.WriteString(service + ":" + strconv.Itoa(len(passwd)) + ":" + cipherPasswd + "\n")
     wr.Flush()
-    fmt.Println("Success to register password!!")
+    fmt.Println("ojigi registered your password!!")
 }
 
 func faildPassword() {

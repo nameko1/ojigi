@@ -8,7 +8,7 @@ import (
     "strconv"
 )
 
-func Modify(service string, passwd []byte, key []byte, action string) {
+func Modify(service string, passwd []byte, key []byte, command string) {
 
     complate := false
     oldFile, oldFileErr := os.OpenFile(filePaths.file, os.O_RDONLY|os.O_CREATE, 0600)
@@ -34,7 +34,7 @@ func Modify(service string, passwd []byte, key []byte, action string) {
             break
         }
         if l := strings.Split(sc.Text(), ":"); l[0] == service {
-            if action == "modify" {
+            if command == "modify" {
                 if len(passwd) == 0 {
                     passwd = VerifyPasswdScanf("Enter service password: ", "Verify: ", faildPassword)
                 }
@@ -50,8 +50,8 @@ func Modify(service string, passwd []byte, key []byte, action string) {
     os.Remove(filePaths.file)
     os.Rename(filePaths.newfile, filePaths.file)
     if complate {
-        fmt.Printf("Success to %s password\n", action)
+        fmt.Printf("Success to %s password\n", command)
     } else {
-        fmt.Printf("Fail to %s, password not found\n", action)
+        fmt.Printf("Fail to %s, password not found\n", command)
     }
 }

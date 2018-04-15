@@ -5,8 +5,9 @@ import (
 )
 
 type Options struct {
-    action string
+    command string
     service string
+    help string
     passwd []byte
 }
 
@@ -28,13 +29,14 @@ func GetPaths() *Paths {
 
 func defaultOptions() *Options {
     return &Options{
-        action: "",
+        command: "",
         service: "",
+        help: "",
         passwd: nil}
 
 }
 func validateOptions(opts *Options) bool {
-    if len(opts.service) == 0 && opts.action != "list" {
+    if opts.help == "" && len(opts.service) == 0 && opts.command != "list" {
         return false
     }
     return true
@@ -45,38 +47,40 @@ func parseOptions(opts *Options, args []string) {
         arg := args[i]
         switch arg {
         case "list":
-            opts.action = opts.action + arg
+            opts.command = opts.command + arg
         case "show":
-            opts.action = opts.action + arg
+            opts.command = opts.command + arg
         case "register":
-            opts.action = opts.action + arg
+            opts.command = opts.command + arg
         case "modify":
-            opts.action = opts.action + arg
+            opts.command = opts.command + arg
         case "delete":
-            opts.action = opts.action + arg
+            opts.command = opts.command + arg
         case "copy":
-            opts.action = opts.action + arg
+            opts.command = opts.command + arg
         case "-s", "--service":
             if i + 1 >= len(args) {
-                opts.action = "help"
+                opts.help = "help"
                 return
             }
             i++
             opts.service=args[i]
         case "-p", "--passwd":
             if i + 1 >= len(args) {
-                opts.action = "help"
+                opts.help = "help"
                 return
             }
             i++
             opts.passwd=[]byte(args[i])
+        case "-h", "--help":
+            opts.help = opts.command
         default:
-            opts.action = "help"
+            opts.help = "help"
         }
     }
-    // if faild validation than no action
+    // if faild validation than no command
     if !validateOptions(opts) {
-        opts.action = "help"
+        opts.help = "help"
     }
 }
 
