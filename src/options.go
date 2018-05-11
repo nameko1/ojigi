@@ -43,22 +43,21 @@ func validateOptions(opts *Options) bool {
 }
 
 func parseOptions(opts *Options, args []string) {
+
+    if len(args) == 0 {
+        opts.help = "help"
+        return
+    }
+
     //command is only first arguments
     opts.command = args[0]
+
     for i := 1; i < len(args); i++ {
         arg := args[i]
         switch arg {
-        //deprecated
-        case "-s", "--service":
-            if i + 1 >= len(args) {
-                opts.help = "help"
-                return
-            }
-            i++
-            opts.service=args[i]
         case "-p", "--passwd":
             if i + 1 >= len(args) {
-                opts.help = "help"
+                opts.help = opts.command
                 return
             }
             i++
@@ -66,12 +65,16 @@ func parseOptions(opts *Options, args []string) {
         case "-h", "--help":
             opts.help = opts.command
         default:
-            opts.help = "help"
+            if i == 1 {
+                opts.service = arg
+            } else{
+                opts.help = opts.command
+            }
         }
     }
     // if faild validation than no command
     if !validateOptions(opts) {
-        opts.help = "help"
+        opts.help = opts.command
     }
 }
 
