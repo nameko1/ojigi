@@ -75,7 +75,7 @@ func help() {
 Usage:
   ojigi <COMMAND> [options]
 
-Commends:
+Commands:
   list                    Show service list
   show                    Show the password for service
   copy                    Copy the password to clipboard

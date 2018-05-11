@@ -43,21 +43,12 @@ func validateOptions(opts *Options) bool {
 }
 
 func parseOptions(opts *Options, args []string) {
-    for i := 0; i < len(args); i++ {
+    //command is only first arguments
+    opts.command = args[0]
+    for i := 1; i < len(args); i++ {
         arg := args[i]
         switch arg {
-        case "list":
-            opts.command = opts.command + arg
-        case "show":
-            opts.command = opts.command + arg
-        case "register":
-            opts.command = opts.command + arg
-        case "modify":
-            opts.command = opts.command + arg
-        case "delete":
-            opts.command = opts.command + arg
-        case "copy":
-            opts.command = opts.command + arg
+        //deprecated
         case "-s", "--service":
             if i + 1 >= len(args) {
                 opts.help = "help"

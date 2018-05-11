@@ -49,13 +49,13 @@ func TestParseOptions(t *testing.T) {
 
     opts = defaultOptions()
     parseOptions(opts, scenario6[0:])
-    if opts.command != "showcopy" {
+    if opts.help != "help" {
         t.Error("no multi command")
     }
 
     opts = defaultOptions()
     parseOptions(opts, scenario7[0:])
-    if opts.command != "" {
+    if opts.command != "-s" {
         t.Error("no command is not allowed")
     }
 
